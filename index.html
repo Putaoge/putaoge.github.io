@@ -1,34 +1,145 @@
 <!DOCTYPE html>
-<html lang="zh-Hans-TW">
+<html lang="zh-cn">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" conte≈nt="width=device-width, initial-scale=1.0">
-    <title>葡萄の</title>
-    <style>
-          *{margin: 0;padding: 0;}
-          img{
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            margin: auto;
-          }
-          h1{
-            width: 100%;
-            text-align: center;
-            line-height: 300px;
-            font-size: 50px;
-          }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>葡萄の</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    #app {
+      width: 8%;
+
+    }
+
+    .btn {
+      width: 64px;
+      position: fixed;
+      top: 10%;
+      left: 10%;
+    }
+
+    img {
+      width: 12%;
+      position: absolute;
+      top: 30%;
+      left: 30%;
+      margin: auto;
+    }
+  </style>
 </head>
+
 <body>
-    <h1>子子來了</h1>
-    <img src="./images/tzutzu.gif" alt="">
-    <script>
+  <div id="app">
+    <img src="./images/IMG_5297.GIF" alt="">
+    <button class="btn">冷静一下</button>
+  </div>
+  <script>
     'use strict';
     let oApp = document.querySelector('#app');
-        
-    </script>
+    let img = document.querySelector('img')
+    let btn = document.querySelector('.btn')
+    console.log(img);
+
+    img.addEventListener('mousedown', task)
+    document.documentElement.addEventListener('mousemove', task)
+    document.documentElement.addEventListener('mouseup', task)
+
+    let frameArr = []
+
+    let eventObj = {
+      isClick: false,
+      mousedown(event) {
+        this.isClick = true
+
+        this.startX = event.clientX
+        this.startY = event.clientY
+
+        this.ballX = img.offsetLeft
+        this.ballY = img.offsetTop
+
+        console.log(this.startX, this.startY);
+      },
+      mousemove(event) {
+        if (!this.isClick) return;
+        event.preventDefault()
+
+        this.diffX = event.clientX - this.startX
+        this.diffY = event.clientY - this.startY
+
+        this.startX = event.clientX
+        this.startY = event.clientY
+
+        this.ballX += this.diffX
+        this.ballY += this.diffY
+
+        this.ballX = Math.max(this.ballX, 0)
+        this.ballX = Math.min(this.ballX, window.innerWidth - img.offsetWidth)
+
+        this.ballY = Math.max(this.ballY, 0)
+        this.ballY = Math.min(this.ballY, window.innerHeight - img.offsetHeight)
+
+        img.style.left = this.ballX + 'px'
+        img.style.top = this.ballY + 'px'
+
+      },
+      mouseup(event) {
+        if (!this.isClick) return;
+        this.isClick = false
+
+
+        let left = img.offsetLeft
+        let top = img.offsetTop
+
+        let run = () => {
+          left += this.diffX
+          top += this.diffY
+
+          if (left >= window.innerWidth - img.offsetWidth || left <= 0) {
+            this.diffX = -this.diffX
+          }
+          if (top >= window.innerHeight - img.offsetHeight || top <= 0) {
+            this.diffY = -this.diffY
+          }
+
+          left = Math.max(left, 0)
+          left = Math.min(left, window.innerWidth - img.offsetWidth)
+
+          top = Math.max(top, 0)
+          top = Math.min(top, window.innerHeight - img.offsetHeight)
+
+          img.style.left = left + 'px'
+          img.style.top = top + 'px'
+
+          let a = requestAnimationFrame(run)
+          frameArr.push(a)
+
+        }
+        run()
+
+
+      }
+    }
+
+    function task(event) {
+      if (eventObj[event.type]) {
+        console.log(event.type);
+        eventObj[event.type](event)
+      }
+    }
+    btn.onclick = function () {
+      frameArr.forEach(item => {
+        cancelAnimationFrame(item)
+      })
+    }
+
+
+  </script>
+  <script src="./js/index.js"></script>
 </body>
+
 </html>
