@@ -117,6 +117,9 @@
                 let run = () => {
                     left += this.diffX
                     top += this.diffY
+                    
+                    this.diffX = this.diffX == 0? this.diffX+=1 : this.diffX
+                    this.diffY = this.diffY == 0? this.diffY+=1 : this.diffY
 
                     if (left >= window.innerWidth - img.offsetWidth || left <= 0) {
                         this.diffX = -this.diffX
@@ -205,6 +208,9 @@
                 let run = () => {
                     left += this.diffX
                     top += this.diffY
+                    
+                    this.diffX = this.diffX == 0? this.diffX+=1 : this.diffX
+                    this.diffY = this.diffY == 0? this.diffY+=1 : this.diffY
 
                     if (left >= window.innerWidth - img.offsetWidth || left <= 0) {
                         this.diffX = -this.diffX
