@@ -43,7 +43,7 @@
     let oApp = document.querySelector('#app');
     let img = document.querySelector('img')
     let btn = document.querySelector('.btn')
-    console.log(img);
+
 
     img.addEventListener('mousedown', task)
     document.documentElement.addEventListener('mousemove', task)
@@ -62,7 +62,6 @@
         this.ballX = img.offsetLeft
         this.ballY = img.offsetTop
 
-        console.log(this.startX, this.startY);
       },
       mousemove(event) {
         if (!this.isClick) return;
@@ -127,7 +126,6 @@
 
     function task(event) {
       if (eventObj[event.type]) {
-        console.log(event.type);
         eventObj[event.type](event)
       }
     }
