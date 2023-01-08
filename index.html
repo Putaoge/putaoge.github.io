@@ -10,6 +10,10 @@
             margin: 0;
             padding: 0;
         }
+        body{
+            height: 100%;
+            overflow: hidden;
+        }
 
         #app {
             width: 8%;
@@ -66,6 +70,7 @@
 
         let eventObj = {
             isClick: false,
+            score:false,
             times: 0,
             mousedown(event) {
                 this.isClick = true
@@ -139,18 +144,22 @@
 
                 }
                 run()
-                let span = document.createElement('span')
-                span.innerHTML = `${this.times}`
-                Object.assign(span.style, {
-                    position: 'absolute',
-                    'font-size': '40px',
-                    left: '3%',
-                    top: '1%',
-                    color: '#999',
-                    width: '14px',
-                    height: '14px',
-                })
-                document.documentElement.append(span)
+                if(!this.score){
+
+                    let span = document.createElement('span')
+                    span.innerHTML = `${this.times}`
+                    Object.assign(span.style, {
+                        position: 'absolute',
+                        'font-size': '40px',
+                        left: '3%',
+                        top: '1%',
+                        color: '#999',
+                        width: '14px',
+                        height: '14px',
+                    })
+                    document.documentElement.append(span)
+                    this.score = true
+                }
             },
             touchstart(event) {
                 this.isClick = true
@@ -224,18 +233,22 @@
 
                 }
                 run()
-                let span = document.createElement('span')
-                span.innerHTML = `${this.times}`
-                Object.assign(span.style, {
-                    position: 'absolute',
-                    'font-size': '40px',
-                    left: '3%',
-                    top: '1%',
-                    color: '#999',
-                    width: '14px',
-                    height: '14px',
-                })
-                document.documentElement.append(span)
+                if(!this.score){
+
+                    let span = document.createElement('span')
+                    span.innerHTML = `${this.times}`
+                    Object.assign(span.style, {
+                        position: 'absolute',
+                        'font-size': '40px',
+                        left: '3%',
+                        top: '1%',
+                        color: '#999',
+                        width: '14px',
+                        height: '14px',
+                    })
+                    document.documentElement.append(span)
+                    this.score = true
+                }
             },
         }
 
