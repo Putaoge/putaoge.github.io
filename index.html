@@ -109,6 +109,25 @@
             mouseup(event) {
                 if (!this.isClick) return;
                 this.isClick = false
+                if(!this.score){
+
+                    let span = document.createElement('span')
+                    span.innerHTML = `${this.times}`
+                    Object.assign(span.style, {
+                        position: 'absolute',
+                        'font-size': '40px',
+                        left: '3%',
+                        top: '1%',
+                        color: '#999',
+                        width: '14px',
+                        height: '14px',
+                    })
+                    document.documentElement.append(span)
+                    this.score = true
+                }
+                
+                this.diffX = this.diffX == 0? this.diffX+=1 : this.diffX
+                this.diffY = this.diffY == 0? this.diffY+=1 : this.diffY
 
 
                 let left = img.offsetLeft
@@ -118,8 +137,6 @@
                     left += this.diffX
                     top += this.diffY
                     
-                    this.diffX = this.diffX == 0? this.diffX+=1 : this.diffX
-                    this.diffY = this.diffY == 0? this.diffY+=1 : this.diffY
 
                     if (left >= window.innerWidth - img.offsetWidth || left <= 0) {
                         this.diffX = -this.diffX
@@ -147,22 +164,7 @@
 
                 }
                 run()
-                if(!this.score){
-
-                    let span = document.createElement('span')
-                    span.innerHTML = `${this.times}`
-                    Object.assign(span.style, {
-                        position: 'absolute',
-                        'font-size': '40px',
-                        left: '3%',
-                        top: '1%',
-                        color: '#999',
-                        width: '14px',
-                        height: '14px',
-                    })
-                    document.documentElement.append(span)
-                    this.score = true
-                }
+                
             },
             touchstart(event) {
                 cancelAnimationFrame(timer)
@@ -200,17 +202,33 @@
             touchend(event) {
                 if (!this.isClick) return;
                 this.isClick = false
+                if(!this.score){
+
+                    let span = document.createElement('span')
+                    span.innerHTML = `${this.times}`
+                    Object.assign(span.style, {
+                        position: 'absolute',
+                        'font-size': '40px',
+                        left: '3%',
+                        top: '1%',
+                        color: '#999',
+                        width: '14px',
+                        height: '14px',
+                    })
+                    document.documentElement.append(span)
+                    this.score = true
+                }
 
 
                 let left = img.offsetLeft
                 let top = img.offsetTop
+                
+                this.diffX = this.diffX == 0? this.diffX+=1 : this.diffX
+                this.diffY = this.diffY == 0? this.diffY+=1 : this.diffY
 
                 let run = () => {
                     left += this.diffX
                     top += this.diffY
-                    
-                    this.diffX = this.diffX == 0? this.diffX+=1 : this.diffX
-                    this.diffY = this.diffY == 0? this.diffY+=1 : this.diffY
 
                     if (left >= window.innerWidth - img.offsetWidth || left <= 0) {
                         this.diffX = -this.diffX
@@ -239,22 +257,7 @@
 
                 }
                 run()
-                if(!this.score){
-
-                    let span = document.createElement('span')
-                    span.innerHTML = `${this.times}`
-                    Object.assign(span.style, {
-                        position: 'absolute',
-                        'font-size': '40px',
-                        left: '3%',
-                        top: '1%',
-                        color: '#999',
-                        width: '14px',
-                        height: '14px',
-                    })
-                    document.documentElement.append(span)
-                    this.score = true
-                }
+                
             },
         }
 
