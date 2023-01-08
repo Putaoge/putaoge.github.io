@@ -66,13 +66,14 @@
 
 
 
-        let frameArr = []
+        let timer;
 
         let eventObj = {
             isClick: false,
             score:false,
             times: 0,
             mousedown(event) {
+                cancelAnimationFrame(timer)
                 this.isClick = true
 
                 this.startX = event.clientX
@@ -139,8 +140,7 @@
                     img.style.left = left + 'px'
                     img.style.top = top + 'px'
 
-                    let a = requestAnimationFrame(run)
-                    frameArr.push(a)
+                    timer = requestAnimationFrame(run)
 
                 }
                 run()
@@ -162,6 +162,7 @@
                 }
             },
             touchstart(event) {
+                cancelAnimationFrame(timer)
                 this.isClick = true
 
                 this.startX = event.targetTouches[0].clientX
@@ -228,8 +229,7 @@
                     img.style.left = left + 'px'
                     img.style.top = top + 'px'
 
-                    let a = requestAnimationFrame(run)
-                    frameArr.push(a)
+                    timer = requestAnimationFrame(run)
 
                 }
                 run()
@@ -258,9 +258,7 @@
             }
         }
         btn.onclick = function () {
-            frameArr.forEach(item => {
-                cancelAnimationFrame(item)
-            })
+            cancelAnimationFrame(timer)
         }
 
 
