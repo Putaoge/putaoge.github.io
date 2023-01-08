@@ -2,141 +2,264 @@
 <html lang="zh-cn">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>葡萄の</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>葡萄の</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
 
-    #app {
-      width: 8%;
+        #app {
+            width: 8%;
 
-    }
+        }
 
-    .btn {
-      width: 64px;
-      position: fixed;
-      top: 10%;
-      left: 10%;
-    }
+        .btn {
+            width: 64px;
+            position: fixed;
+            top: 10%;
+            left: 10%;
+        }
 
-    img {
-      width: 12%;
-      position: absolute;
-      top: 30%;
-      left: 30%;
-      margin: auto;
-    }
-  </style>
+        img {
+            width: 20%;
+            position: absolute;
+            top: 30%;
+            left: 30%;
+            margin: auto;
+        }
+    </style>
 </head>
 
 <body>
-  <div id="app">
-    <img src="./images/IMG_5297.GIF" alt="">
-    <button class="btn">冷静一下</button>
-  </div>
-  <script>
-    'use strict';
-    let oApp = document.querySelector('#app');
-    let img = document.querySelector('img')
-    let btn = document.querySelector('.btn')
+    <div id="app">
+        <img src="./images/IMG_5297.GIF" alt="">
+        <button class="btn">冷静一下</button>
+    </div>
+    <script>
+        'use strict';
+        let oApp = document.querySelector('#app');
+        let img = document.querySelector('img')
+        let btn = document.querySelector('.btn')
+        console.log(img);
 
 
-    img.addEventListener('mousedown', task)
-    document.documentElement.addEventListener('mousemove', task)
-    document.documentElement.addEventListener('mouseup', task)
-
-    let frameArr = []
-
-    let eventObj = {
-      isClick: false,
-      mousedown(event) {
-        this.isClick = true
-
-        this.startX = event.clientX
-        this.startY = event.clientY
-
-        this.ballX = img.offsetLeft
-        this.ballY = img.offsetTop
-
-      },
-      mousemove(event) {
-        if (!this.isClick) return;
-        event.preventDefault()
-
-        this.diffX = event.clientX - this.startX
-        this.diffY = event.clientY - this.startY
-
-        this.startX = event.clientX
-        this.startY = event.clientY
-
-        this.ballX += this.diffX
-        this.ballY += this.diffY
-
-        this.ballX = Math.max(this.ballX, 0)
-        this.ballX = Math.min(this.ballX, window.innerWidth - img.offsetWidth)
-
-        this.ballY = Math.max(this.ballY, 0)
-        this.ballY = Math.min(this.ballY, window.innerHeight - img.offsetHeight)
-
-        img.style.left = this.ballX + 'px'
-        img.style.top = this.ballY + 'px'
-
-      },
-      mouseup(event) {
-        if (!this.isClick) return;
-        this.isClick = false
-
-
-        let left = img.offsetLeft
-        let top = img.offsetTop
-
-        let run = () => {
-          left += this.diffX
-          top += this.diffY
-
-          if (left >= window.innerWidth - img.offsetWidth || left <= 0) {
-            this.diffX = -this.diffX
-          }
-          if (top >= window.innerHeight - img.offsetHeight || top <= 0) {
-            this.diffY = -this.diffY
-          }
-
-          left = Math.max(left, 0)
-          left = Math.min(left, window.innerWidth - img.offsetWidth)
-
-          top = Math.max(top, 0)
-          top = Math.min(top, window.innerHeight - img.offsetHeight)
-
-          img.style.left = left + 'px'
-          img.style.top = top + 'px'
-
-          let a = requestAnimationFrame(run)
-          frameArr.push(a)
-
+        if (isMobile()) {
+            console.log("mobile");
+        } else {
+            console.log("pc");
         }
-        run()
+
+        function isMobile() {
+            let flag = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            return flag;
+        }
 
 
-      }
-    }
-
-    function task(event) {
-      if (eventObj[event.type]) {
-        eventObj[event.type](event)
-      }
-    }
-    btn.onclick = function () {
-      frameArr.forEach(item => {
-        cancelAnimationFrame(item)
-      })
-    }
+        if (isMobile()) {
+            img.addEventListener('touchstart', task)
+            document.documentElement.addEventListener('touchmove', task)
+            document.documentElement.addEventListener('touchend', task)
+        } else {
+            img.addEventListener('mousedown', task)
+            document.documentElement.addEventListener('mousemove', task)
+            document.documentElement.addEventListener('mouseup', task)
+        }
 
 
-  </script>
+
+        let frameArr = []
+
+        let eventObj = {
+            isClick: false,
+            times: 0,
+            mousedown(event) {
+                this.isClick = true
+
+                this.startX = event.clientX
+                this.startY = event.clientY
+
+                this.ballX = img.offsetLeft
+                this.ballY = img.offsetTop
+
+            },
+            mousemove(event) {
+                if (!this.isClick) return;
+                event.preventDefault()
+
+                this.diffX = event.clientX - this.startX
+                this.diffY = event.clientY - this.startY
+
+                this.startX = event.clientX
+                this.startY = event.clientY
+
+                this.ballX += this.diffX
+                this.ballY += this.diffY
+
+                this.ballX = Math.max(this.ballX, 0)
+                this.ballX = Math.min(this.ballX, window.innerWidth - img.offsetWidth)
+
+                this.ballY = Math.max(this.ballY, 0)
+                this.ballY = Math.min(this.ballY, window.innerHeight - img.offsetHeight)
+
+                img.style.left = this.ballX + 'px'
+                img.style.top = this.ballY + 'px'
+
+            },
+            mouseup(event) {
+                if (!this.isClick) return;
+                this.isClick = false
+
+
+                let left = img.offsetLeft
+                let top = img.offsetTop
+
+                let run = () => {
+                    left += this.diffX
+                    top += this.diffY
+
+                    if (left >= window.innerWidth - img.offsetWidth || left <= 0) {
+                        this.diffX = -this.diffX
+                        let span = document.querySelector('span')
+                        this.times++
+                        span.innerHTML = `${this.times}`
+                    }
+                    if (top >= window.innerHeight - img.offsetHeight || top <= 0) {
+                        this.diffY = -this.diffY
+                        let span = document.querySelector('span')
+                        this.times++
+                        span.innerHTML = `${this.times}`
+                    }
+
+                    left = Math.max(left, 0)
+                    left = Math.min(left, window.innerWidth - img.offsetWidth)
+
+                    top = Math.max(top, 0)
+                    top = Math.min(top, window.innerHeight - img.offsetHeight)
+
+                    img.style.left = left + 'px'
+                    img.style.top = top + 'px'
+
+                    let a = requestAnimationFrame(run)
+                    frameArr.push(a)
+
+                }
+                run()
+                let span = document.createElement('span')
+                span.innerHTML = `${this.times}`
+                Object.assign(span.style, {
+                    position: 'absolute',
+                    'font-size': '40px',
+                    left: '3%',
+                    top: '1%',
+                    color: '#999',
+                    width: '14px',
+                    height: '14px',
+                })
+                document.documentElement.append(span)
+            },
+            touchstart(event) {
+                this.isClick = true
+
+                this.startX = event.targetTouches[0].clientX
+                this.startY = event.targetTouches[0].clientY
+
+                this.ballX = img.offsetLeft
+                this.ballY = img.offsetTop
+
+            },
+            touchmove(event) {
+                if (!this.isClick) return;
+
+                this.diffX = event.targetTouches[0].clientX - this.startX
+                this.diffY = event.targetTouches[0].clientY - this.startY
+
+                this.startX = event.targetTouches[0].clientX
+                this.startY = event.targetTouches[0].clientY
+
+                this.ballX += this.diffX
+                this.ballY += this.diffY
+
+                this.ballX = Math.max(this.ballX, 0)
+                this.ballX = Math.min(this.ballX, window.innerWidth - img.offsetWidth)
+
+                this.ballY = Math.max(this.ballY, 0)
+                this.ballY = Math.min(this.ballY, window.innerHeight - img.offsetHeight)
+
+                img.style.left = this.ballX + 'px'
+                img.style.top = this.ballY + 'px'
+
+            },
+            touchend(event) {
+                if (!this.isClick) return;
+                this.isClick = false
+
+
+                let left = img.offsetLeft
+                let top = img.offsetTop
+
+                let run = () => {
+                    left += this.diffX
+                    top += this.diffY
+
+                    if (left >= window.innerWidth - img.offsetWidth || left <= 0) {
+                        this.diffX = -this.diffX
+                        let span = document.querySelector('span')
+                        this.times++
+                        span.innerHTML = `${this.times}`
+
+                    }
+                    if (top >= window.innerHeight - img.offsetHeight || top <= 0) {
+                        this.diffY = -this.diffY
+                        let span = document.querySelector('span')
+                        this.times++
+                        span.innerHTML = `${this.times}`
+                    }
+
+                    left = Math.max(left, 0)
+                    left = Math.min(left, window.innerWidth - img.offsetWidth)
+
+                    top = Math.max(top, 0)
+                    top = Math.min(top, window.innerHeight - img.offsetHeight)
+
+                    img.style.left = left + 'px'
+                    img.style.top = top + 'px'
+
+                    let a = requestAnimationFrame(run)
+                    frameArr.push(a)
+
+                }
+                run()
+                let span = document.createElement('span')
+                span.innerHTML = `${this.times}`
+                Object.assign(span.style, {
+                    position: 'absolute',
+                    'font-size': '40px',
+                    left: '3%',
+                    top: '1%',
+                    color: '#999',
+                    width: '14px',
+                    height: '14px',
+                })
+                document.documentElement.append(span)
+            },
+        }
+
+        function task(event) {
+            if (eventObj[event.type]) {
+                eventObj[event.type](event)
+            }
+        }
+        btn.onclick = function () {
+            frameArr.forEach(item => {
+                cancelAnimationFrame(item)
+            })
+        }
+
+
+    </script>
 </body>
 
 </html>
